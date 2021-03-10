@@ -32,9 +32,9 @@ El controlador se encarga de mediar entre la vista y el modelo.
 # Inicialización del Catálogo de libros
 
 
-def initCatalog(chosenType):
+def initCatalog():
 
-    catalog = model.newCatalog(chosenType)
+    catalog = model.newCatalog()
     return catalog
 
 # Funciones para la carga de datos
@@ -50,7 +50,8 @@ def loadData(catalog):
 
 def loadVideos(catalog):
 
-    videosfile = cf.data_dir + 'videos-large.csv'
+
+    videosfile = (cf.data_dir + 'videos-large.csv').replace("\\","/")
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
         model.addVideo(catalog, video)
@@ -68,6 +69,32 @@ def loadCategories(catalog):
 
 # Funciones de consulta sobre el catálogo
 
+def findCategoryId(catalog, category):
+    for cat in catalog["categories"]["elements"]:
+        if (category.title()) in cat['id\tname']:
+            contents = cat['id\tname'].split("\t")
+            category_id = contents[0]
+    return category_id
 
-def firstReq(catalog, data_size, algorithm):
-    return model.firstReq(catalog, data_size, algorithm)
+
+def firstReq(catalog, data_size, country, category):
+    """
+    Solicita al model la información del requerimiento 1
+    """
+    idcat = findCategoryId(catalog, category)
+    return model.firstReq(catalog, data_size, country, idcat)
+
+
+def secondReq():
+    """
+    Solicita al model la información del requerimiento 2
+    """
+    return model.secondReq()
+
+
+def thirdReq(catalog, category):
+    """
+    Solicita al model la información del requerimiento 3
+    """
+    idcat = findCategoryId(catalog, category)
+    return model.thirdReq(catalog, idcat)

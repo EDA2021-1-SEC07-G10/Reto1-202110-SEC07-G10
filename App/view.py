@@ -36,20 +36,21 @@ operación solicitada
 
 
 def printMenu():
+    print("------------------------------------------------------")
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- Consultar n videos con más views en un país, por categoría")
-    print("3- Consultar video que más días ha sido trending en un país")
-    print("4- Consultar video que más dias ha sido trending, por categoría")
-    print("5- Consultar n videos con más likes en un país, por tag")
+    print("2- Req. 1: Consultar n videos con más views en un país, por categoría")
+    print("3- Req. 2: Consultar video que más días ha sido trending en un país")
+    print("4- Req. 3: Consultar video que más dias ha sido trending, por categoría")
+    print("5- Req. 4: Consultar n videos con más likes en un país, por tag")
     print("0- Salir")
 
 
-def initCatalog(chosenType):
+def initCatalog():
     """
     Inicializa el catálogo de videos
     """
-    return controller.initCatalog(chosenType)
+    return controller.initCatalog()
 
 
 def loadData(catalog):
@@ -63,6 +64,7 @@ def printVideoInfo(video):
     """
     Imprime la información principal de un video
     """
+    print("------------------------------------------------------")
     print("Título: " + video["title"])
     print("Canal: " + video["channel_title"])
     print("Fecha en que fue trending: " + video["trending_date"])
@@ -72,6 +74,31 @@ def printVideoInfo(video):
     print("Cantidad de Dislikes: " + video["dislikes"])
 
 
+def printVideoInfo1(video):
+    """
+    Imprime la información principal de un video
+    """
+    print("------------------------------------------------------")
+    print("Título: " + video["title"])
+    print("Canal: " + video["channel_title"])
+    print("Fecha en que fue trending: " + video["trending_date"])
+    print("Fecha de publicación: " + video["publish_time"])
+    print("Cantidad de vistas: " + video["views"])
+    print("Cantidad de Likes: " + video["likes"])
+    print("Cantidad de Dislikes: " + video["dislikes"])
+
+
+def printVideoInfo3(info):
+    """
+    Imprime la información principal de un video
+    """
+    print("------------------------------------------------------")
+    print("Título: " + info[0])
+    print("Canal: " + info[1])
+    print("Identificador de categoría: " + str(info[3]))
+    print("Número de días como tendencia: " + str(info[2]))
+
+
 def printCategoriesList(catalog):
     "Imprime la lista de categorías"
     for category in lt.iterator(catalog['categories']):
@@ -79,33 +106,11 @@ def printCategoriesList(catalog):
         print(idpluscategory[0], idpluscategory[1])
 
 
-def printListMenu():
-    """
-    Imprime el menú para escoger en qué tipo de representación
-    de lista se guardará el catálogo
-    """
-    print("Seleccione un tipo de lista para guardar el catálogo de videos:")
-    print("0- ARRAY_LIST")
-    print("1- LINKED_LIST")
-
-
-def printAlgorithmMenu():
-    """
-    Imprime el menú para escoger el tipo de algoritmo de ordenamiento
-    """
-    print("Seleccione un tipo de algoritmo de ordenamiento:")
-    # print("0- selection")
-    # print("1- insertion")
-    # print("2- shell")
-    print("0- Merge")
-    print("1- Quick")
-
-
 def askForDataSize(catalog):
     """
     Pregunta al usuario el tamaño de la muestra a comparar y valida la cantidad
     """
-    data_size = int(input("Tamaño de muestra de: "))
+    data_size = int(input("Número de videos que se quiere listar: "))
     if data_size > int(lt.size(catalog['videos'])):
         print("Error: valor excede tamaño de los datos cargados.")
         askForDataSize()
@@ -113,26 +118,45 @@ def askForDataSize(catalog):
         return data_size
 
 
-def firstReq(catalog, data_size, algorithm):
+def firstReq(catalog, data_size, country, category):
     """
     Solicita al controller la información del requerimiento 1
     """
-    return controller.firstReq(catalog, data_size, algorithm)
+    return controller.firstReq(catalog, data_size, country, category)
+
+
+def secondReq():
+    """
+    Solicita al controller la información del requerimiento 2
+    """
+    return controller.secondReq()
+
+
+def thirdReq(catalog, category):
+    """
+    Solicita al controller la información del requerimiento 3
+    """
+    return controller.thirdReq(catalog, category)
+
+
+def fourthReq(catalog, data_size, country, tag):
+    """
+    Solicita al controller la información del requerimiento 3
+    """
+    return controller.thirdReq(catalog, data_size, country, tag)
 
 
 catalog = None
+"""
+"""
+# Menu principal
 
-"""
-Menu principal
-"""
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        printListMenu()
-        chosenType = int(input("Su selección (0 o 1) es: "))
         print("Cargando información de los archivos ....")
-        catalog = initCatalog(chosenType)
+        catalog = initCatalog()
         loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
         print("Información sobre el primer video cargado:\n")
@@ -142,14 +166,29 @@ while True:
         printCategoriesList(catalog)
 
     elif int(inputs[0]) == 2:
-        # n_videos = int(input("Consultando los Top ? : "))
+        print("------------------------------------------------------")
+        print("Req. 1: Consultar n videos con más views en un país, por categoría")
         data_size = askForDataSize(catalog)
-        printAlgorithmMenu()
-        algorithm = int(input("Su selección (0 o 1) es: "))
-        result = firstReq(catalog, data_size, algorithm)
-        for video in lt.iterator(result[0]):
-            printVideoInfo(video)
-        print("El tiempo de ejecución fue de: " + str(result[1]))
+        country = input("Indique el país: " )
+        category = input("Indique la categoría: ")
+        result = firstReq(catalog, data_size, country, category)
+        for video in result["elements"]:
+            printVideoInfo1(video)
+    
+    elif int(inputs[0]) == 3:
+        print("------------------------------------------------------")
+        print("Req. 2: Consultar video que más días ha sido trending en un país")
+        pass
+    
+    elif int(inputs[0]) == 4:
+        print("------------------------------------------------------")
+        print("Req. 3: Consultar video que más dias ha sido trending, por categoría")
+        #category = input("Indique la categoría: ")
+        category = "music"
+        result = thirdReq(catalog, category)
+        printVideoInfo3(result)
+        
+
     else:
         sys.exit(0)
 sys.exit(0)

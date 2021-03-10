@@ -27,12 +27,8 @@
 
 import config as cf
 from DISClib.ADT import list as lt
-# from DISClib.Algorithms.Sorting import shellsort as shell
-# from DISClib.Algorithms.Sorting import selectionsort as sel
-# from DISClib.Algorithms.Sorting import insertionsort as ins
-from DISClib.Algorithms.Sorting import mergesort as mer
-from DISClib.Algorithms.Sorting import quicksort as qck
-import time
+from DISClib.Algorithms.Sorting import quicksort as quick
+import operator
 assert cf
 
 """
@@ -44,14 +40,12 @@ los mismos.
 # Construccion de modelos
 
 
-def newCatalog(chosenType):
+def newCatalog():
 
     typeofList = "ARRAY_LIST"
-    if chosenType == 1:
-        typeofList = "LINKED_LIST"
     catalog = {"videos": None, "categories": None}
-    catalog["videos"] = lt.newList(typeofList)
-    catalog["categories"] = lt.newList()
+    catalog["videos"] = lt.newList(typeofList, cmpfunction=cmpVideosByViews)
+    catalog["categories"] = lt.newList(typeofList, cmpfunction=cmpVideosByViews)
 
     return catalog
 
@@ -88,33 +82,82 @@ def cmpVideosByViews(video1, video2):
     return (video1["views"] < video2["views"])
 
 
-def firstReq(catalog, data_size, algorithm):
-    "Completa el requerimiento #1"
-    data_sublist = lt.subList(catalog["videos"], 1, data_size)
+def firstReq(catalog, data_size, country, category):
+    """
+    Completa el requerimiento 1
+    """
+    filtered = catalog.copy()
+    i = 1
+    t = lt.size(filtered["videos"])
+    while i <= t:
+        elem = lt.getElement(filtered["videos"], i)
+        if (elem["country"].lower()) != (country.lower()) or elem["category_id"] != category:
+            lt.deleteElement(filtered["videos"], i)
+            t -= 1
+            i -= 1
+        i += 1
+    print("list ------------------------------------------------------------------")
+    print(filtered["videos"])
+    sorted_list = quick.sort(filtered["videos"], cmpVideosByViews)
+    print("Sorted list -----------------------------------------------------------")
+    print(sorted_list)
+    data_sublist = lt.subList(sorted_list, 1, data_size)
     data_sublist = data_sublist.copy()
-    """
-    if algorithm == 0:
-        start_time = time.process_time()
-        sorted_list = sel.sort(data_sublist, cmpVideosByViews)
-        stop_time = time.process_time()
-    elif algorithm == 1:
-        start_time = time.process_time()
-        sorted_list = ins.sort(data_sublist, cmpVideosByViews)
-        stop_time = time.process_time()
-    elif algorithm == 2:
-        start_time = time.process_time()
-        sorted_list = shell.sort(data_sublist, cmpVideosByViews)
-        stop_time = time.process_time()
-    """
-    if algorithm == 0:
-        start_time = time.process_time()
-        sorted_list = mer.sort(data_sublist, cmpVideosByViews)
-        stop_time = time.process_time()
-    elif algorithm == 1:
-        start_time = time.process_time()
-        sorted_list = qck.sort(data_sublist, cmpVideosByViews)
-        stop_time = time.process_time()
+    print("Data sublist ----------------------------------------------------------")
+    print(data_sublist)
+    return data_sublist
 
-    elapsed_time_mseg = (stop_time - start_time)*1000
-    # sorted_top_n = lt.subList(sorted_list, 1, n_videos)
-    return [sorted_list, elapsed_time_mseg]
+
+def secondReq():
+    """
+    Completa el requerimiento 2
+    """
+    pass
+
+
+def thirdReq(catalog, category):
+    """
+    Completa el requerimiento 3
+    """
+    dicc = {}
+    filtered = catalog.copy()
+    i = 1
+    t = lt.size(filtered["videos"])
+    while i <= t:
+        elem = lt.getElement(filtered["videos"], i)
+        if elem["category_id"] != category:
+            lt.deleteElement(filtered["videos"], i)
+            t -= 1
+            i -= 1
+        i += 1
+    i = 1
+    t = lt.size(filtered["videos"])
+    x = 0
+    while i <= t:
+        elem = lt.getElement(filtered["videos"], i)
+        #titulo = (elem["title"])
+        titulo = (elem["title"] + "#,@,#" + elem["channel_title"])
+        if titulo not in dicc:
+            dicc[titulo] = 1
+            x += 1
+        else:
+            dicc[titulo] += 1
+        i += 1
+    dicc_sort = sorted(dicc.items(), key=operator.itemgetter(1), reverse=True)
+    mayor = dicc_sort[0]
+    primerosdatos = mayor[0].split("#,@,#")
+    resultado = [primerosdatos[0], primerosdatos[1], mayor[1], category]
+    return resultado
+
+    
+
+    
+
+
+def fourthReq(catalog, data_size, country, tag):
+    """
+    Completa el requerimiento 3
+    """
+    pass
+
+    
