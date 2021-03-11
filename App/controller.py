@@ -50,6 +50,7 @@ def loadData(catalog):
 
 def loadVideos(catalog):
 
+
     videosfile = (cf.data_dir + 'videos-large.csv').replace("\\","/")
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
@@ -62,6 +63,7 @@ def loadCategories(catalog):
     input_file = csv.DictReader(open(categoriesfile, encoding='utf-8'))
     for category in input_file:
         model.addCategory(catalog, category)
+
 
 # Funciones de ordenamiento
 
