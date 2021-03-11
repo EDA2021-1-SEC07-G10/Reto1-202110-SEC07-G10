@@ -95,7 +95,7 @@ def cmpVideosByLikes(video1, video2):
 
 def firstReq(catalog, data_size, country, category):
     """
-    Completa el requerimiento 1
+    Completa el requerimiento #1
     """
     filtered = catalog.copy()
     i = 1
@@ -118,7 +118,7 @@ def firstReq(catalog, data_size, country, category):
 
 def secondReq(catalog, country):
     """
-    Completa el requerimiento 2
+    Completa el requerimiento #2
     """
     dicc = {}
     filtered = catalog.copy()
@@ -152,7 +152,7 @@ def secondReq(catalog, country):
 
 def thirdReq(catalog, category):
     """
-    Completa el requerimiento 3
+    Completa el requerimiento #3
     """
     dicc = {}
     filtered = catalog.copy()
@@ -186,7 +186,7 @@ def thirdReq(catalog, category):
 
 def fourthReq(catalog, data_size, country, tag):
     """
-    Completa el requerimiento 4
+    Completa el requerimiento #4
     """
     filtered = catalog.copy()
     i = 1

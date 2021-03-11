@@ -192,7 +192,7 @@ while True:
 
     elif int(inputs[0]) == 2:
         print("------------------------------------------------------")
-        print("Req. 1: Consultar n videos con más views en un país, por categoría")
+        print("Req. #1: Consultar n videos con más views en un país, por categoría")
         data_size = askForDataSize(catalog)
         country = input("Indique el país: " )
         category = input("Indique la categoría: ")
@@ -202,14 +202,14 @@ while True:
 
     elif int(inputs[0]) == 3:
         print("------------------------------------------------------")
-        print("Req. 2: Consultar video que más días ha sido trending en un país")
+        print("Req. #2: Consultar video que más días ha sido trending en un país")
         country = input("Indique el país: ")
         result = secondReq(catalog, country)
         printVideoInfo2(result)
     
     elif int(inputs[0]) == 4:
         print("------------------------------------------------------")
-        print("Req. 3: Consultar video que más dias ha sido trending, por categoría")
+        print("Req. #3: Consultar video que más dias ha sido trending, por categoría")
         category = input("Indique la categoría: ")
         result = thirdReq(catalog, category)
         printVideoInfo3(result)
@@ -217,7 +217,7 @@ while True:
 
     elif int(inputs[0]) == 5:
         print("------------------------------------------------------")
-        print("Req. 4: Consultar n videos con más likes en un país, por tag")
+        print("Req. #4: Consultar n videos con más likes en un país, por tag")
         data_size = askForDataSize(catalog)
         country = input("Indique el país: " )
         tag = str(input("Indique el tag: " ))
