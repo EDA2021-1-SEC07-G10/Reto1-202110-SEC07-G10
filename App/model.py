@@ -108,9 +108,12 @@ def firstReq(catalog, data_size, country, category):
             i -= 1
         i += 1
     sorted_list = quick.sort(filtered["videos"], cmpVideosByViews)
-    data_sublist = lt.subList(sorted_list, 1, data_size)
-    data_sublist = data_sublist.copy()
-    return data_sublist
+    try:
+        data_sublist = lt.subList(sorted_list, 1, data_size)
+        data_sublist = data_sublist.copy()
+        return data_sublist
+    except:
+        return sorted_list
 
 
 def secondReq(catalog, country):
