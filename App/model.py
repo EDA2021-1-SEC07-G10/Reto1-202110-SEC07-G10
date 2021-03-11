@@ -107,16 +107,44 @@ def firstReq(catalog, data_size, country, category):
             t -= 1
             i -= 1
         i += 1
-    #print("list ------------------------------------------------------------------")
-    #print(filtered["videos"])
     sorted_list = quick.sort(filtered["videos"], cmpVideosByViews)
-    #print("Sorted list -----------------------------------------------------------")
-    #print(sorted_list)
     data_sublist = lt.subList(sorted_list, 1, data_size)
     data_sublist = data_sublist.copy()
-    #print("Data sublist ----------------------------------------------------------")
-    #print(data_sublist)
     return data_sublist
+
+
+def secondReq(catalog, country):
+    """
+    Completa el requerimiento 2
+    """
+    dicc = {}
+    filtered = catalog.copy()
+    i = 1
+    t = lt.size(filtered["videos"])
+    while i <= t:
+        elem = lt.getElement(filtered["videos"], i)
+        if (elem["country"].lower()) != (country.lower()):
+            lt.deleteElement(filtered["videos"], i)
+            t -= 1
+            i -= 1
+        i += 1
+    i = 1
+    t = lt.size(filtered["videos"])
+    x = 0
+    while i <= t:
+        elem = lt.getElement(filtered["videos"], i)
+        titulo = (elem["title"] + "#,@,#" + elem["channel_title"])
+        if titulo not in dicc:
+            dicc[titulo] = 1
+            x += 1
+        else:
+            dicc[titulo] += 1
+        i += 1
+    dicc_sort = sorted(dicc.items(), key=operator.itemgetter(1), reverse=True)
+    mayor = dicc_sort[0]
+    primerosdatos = mayor[0].split("#,@,#")
+    resultado = [primerosdatos[0], primerosdatos[1], mayor[1]]
+    return resultado
 
 
 def thirdReq(catalog, category):
@@ -139,7 +167,6 @@ def thirdReq(catalog, category):
     x = 0
     while i <= t:
         elem = lt.getElement(filtered["videos"], i)
-        #titulo = (elem["title"])
         titulo = (elem["title"] + "#,@,#" + elem["channel_title"])
         if titulo not in dicc:
             dicc[titulo] = 1

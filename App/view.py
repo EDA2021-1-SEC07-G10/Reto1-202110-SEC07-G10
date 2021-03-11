@@ -150,6 +150,13 @@ def firstReq(catalog, data_size, country, category):
     return controller.firstReq(catalog, data_size, country, category)
 
 
+def secondReq(catalog, country):
+    """
+    Solicita al controller la información del requerimiento 2
+    """
+    return controller.secondReq(catalog,country)
+
+
 def thirdReq(catalog, category):
     """
     Solicita al controller la información del requerimiento 3
@@ -192,6 +199,13 @@ while True:
         result = firstReq(catalog, data_size, country, category)
         for video in result["elements"]:
             printVideoInfo1(video)
+
+    elif int(inputs[0]) == 3:
+        print("------------------------------------------------------")
+        print("Req. 2: Consultar video que más días ha sido trending en un país")
+        country = input("Indique el país: ")
+        result = secondReq(catalog, country)
+        printVideoInfo2(result)
     
     elif int(inputs[0]) == 4:
         print("------------------------------------------------------")
@@ -210,7 +224,6 @@ while True:
         result = fourthReq(catalog, data_size, country, tag)
         for video in result["elements"]:
             printVideoInfo4(video)
-
 
     else:
         sys.exit(0)
